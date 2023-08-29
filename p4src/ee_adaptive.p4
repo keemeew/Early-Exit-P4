@@ -1006,18 +1006,6 @@ control MyIngress(inout headers hdr,
         weight = weight + (bit<126>) weight_sub;
         XNOR(weight);
         BitCount(XNOROutput);
-        // weights_bnn.read(weight_sub, (bit<32>)offset+252);
-        // weight = (bit<126>) weight_sub<<63;
-        // weights_bnn.read(weight_sub, (bit<32>)offset+253);
-        // weight = weight + (bit<126>) weight_sub;
-        // XNOR(weight);
-        // BitCount(XNOROutput);
-        // weights_bnn.read(weight_sub, (bit<32>)offset+254);
-        // weight = (bit<126>) weight_sub<<63;
-        // weights_bnn.read(weight_sub, (bit<32>)offset+255);
-        // weight = weight + (bit<126>) weight_sub;
-        // XNOR(weight);
-        // BitCount(XNOROutput);
     }
 
     action check_switch_id(switch_id_t swid){
