@@ -1,4 +1,4 @@
-# Implementation of In-Network Adaptive Inference using Early-Exits
+# Implementation of In-Network Adaptive Inference 
 
 This is the implementation of "In-Network Adaptive Inference using Early-Exits" based on P4 BMv2 software switch. 
 
