@@ -1,22 +1,20 @@
-# Approximated Fair Queuing implemented on Bmv2
+# Implementation of In-Network Adaptive Inference using Early-Exits
 
-This is simple implementation of "Approximated Fair Queuing (NSDI' 18)" on P4 v1model. 
-
-Paper link: https://www.usenix.org/system/files/conference/nsdi18/nsdi18-sharma.pdf
+This is the implementation of "In-Network Adaptive Inference using Early-Exits" based on P4 BMv2 software switch. 
 
 ## Dependencies
 
-To run the code, basic dependencies such as Bmv2 and p4c should be installed. In addition, this code uses strict priority queue on v1model, which requires several modiifications and recompilation of the Bmv2 and p4c backends. I post links for detailed information below.
-
-Bmv2: https://github.com/p4lang/behavioral-model
+To run the code, basic dependencies such as p4c, Bmv2 and Mininet should be installed. We strongly recommend you to place those dependencies identically on the home directory. I post links for detailed information below.
 
 p4c: https://github.com/p4lang/p4c
 
-Instructions for priority queuing: https://github.com/nsg-ethz/p4-learning/tree/master/examples/multiqueueing
+Bmv2: https://github.com/p4lang/behavioral-model
+
+Mininet: https://github.com/mininet/mininet
 
 ## Instructions
 
-This repository aims to implement basic concepts of AFQ using count-min sketch and recirculation. It keeps tacking departure rounds for each flows using count-min sketch with 5 tuple information. Due to the seperated structure of ingress and egress pipeline, we use periodic recirculation to synchronize registers between ingress & egress. Priority of the packet is decided by current flow departure rounds, which increase/decrease as a packet passes ingress/egress pipeline.
+This repository is to show the feasibility of our idea which is to conduct early-exiting on the middle of in-network inference. There are two modes - static exiting and adaptive exiting. Static exiting mode is to exit every packets on the designated exit point. On the other hand, adaptive exiting obtains the confidence score of current packet and decides whether to exit by comparing with the threshold.
 
 These are instructions you can follow to run.
 
