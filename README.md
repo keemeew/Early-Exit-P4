@@ -20,6 +20,7 @@ Network topology:
 
 ![image](https://github.com/keemeew/Early-Exit-P4/assets/69777212/047e8c60-6513-4a85-bd37-06affa07a38e)
 
+
 These are instructions you can follow to run.
 
 ### Preliminaries
