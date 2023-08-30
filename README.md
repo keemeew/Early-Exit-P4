@@ -18,6 +18,12 @@ This repository is to show the feasibility of our idea which is to conduct early
 
 These are instructions you can follow to run.
 
+### Preliminaries
+
+
+
+
+
 1. Clone the repository to local 
 ```
 git clone https://github.com/keemeew/Approximated-Fair-Queuing
