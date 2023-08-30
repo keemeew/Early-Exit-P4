@@ -18,8 +18,10 @@ This repository is to show the feasibility of our idea which is to conduct early
 
 Network topology:
 
-![image](https://github.com/keemeew/Early-Exit-P4/assets/69777212/047e8c60-6513-4a85-bd37-06affa07a38e)
-
+         (L1-EE1)     (L2-EE2)    (L3-EE3)
+host0 ⸺ switch1 ⸺ switch2 ⸺ switch3 ⸺ host4 
+             |            |           | 
+           host1        host2       host3
 
 These are instructions you can follow to run.
 
