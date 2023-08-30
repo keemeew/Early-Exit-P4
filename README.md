@@ -23,7 +23,7 @@ host0 ⸺ switch1 ⸺ switch2 ⸺ switch3 ⸺ host4 <br/>
       |     |     | <br/>
      host1   host2   host3
 
-These are instructions you can follow to run.
+These are instructions you can follow.
 
 ### Preliminaries
 
