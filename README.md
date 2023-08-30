@@ -70,10 +70,6 @@ python3 receive.py
 python3 send.py
 ```
 
-6. By default the packets are set to exit on exit point 1. If you want to change the exit point, please modify the following line in ee_static.p4 and recompile it.
-```
-(line 1133) if (meta.swid == 1) -> meta.swid == 2 or meta.swid == 3
-```
 
 ### Adaptive-exiting
 
