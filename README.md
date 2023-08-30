@@ -72,3 +72,17 @@ python3 send.py
 ```
 (line 1133) if (meta.swid == 2) -> meta.swid == 1 or meta.swid == 3
 ```
+
+### Adaptive-exiting
+
+1. The running process is basically same with the former case (from step 1 to 5). The only difference is the executive file.
+```
+bash run_adaptive.sh
+```
+For the rest of step, please follow the identical procedure of static-exiting.
+
+2. By default the confidence score threshold is set to be 0.7 (7). To change the value, please modify the following line in ee_adaptive.p4 and recompile it.
+```
+(line 1063) bit<4> c_threshold = 7; -> c_threshold = 1 ... c_threshold = 9
+```
+Note that the value is expressed as the integer between 1 and 9 (x10) for tactical implementation.
