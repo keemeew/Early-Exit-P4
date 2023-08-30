@@ -75,7 +75,7 @@ python3 send.py
 
 ### Adaptive-exiting
 
-1. The running process is basically same with the former case (from step 1 to 5). The only difference is the executive file.
+1. The running process is basically same with the former case. The only difference is the executive file.
 ```
 bash run_adaptive.sh
 ```
