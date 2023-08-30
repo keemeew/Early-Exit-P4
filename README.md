@@ -18,10 +18,10 @@ This repository is to show the feasibility of our idea which is to conduct early
 
 Network topology:
 
-         (L1-EE1)     (L2-EE2)    (L3-EE3)
+          (L1-EE1)    (L2-EE2)     (L3-EE3) <br/>
 host0 ⸺ switch1 ⸺ switch2 ⸺ switch3 ⸺ host4 <br/>
-                  |                              |                             | <br/>
-           host1        host2       host3
+             |           |            | <br/>
+           host1       host2        host3
 
 These are instructions you can follow to run.
 
