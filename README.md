@@ -16,6 +16,8 @@ Mininet: https://github.com/mininet/mininet
 
 This repository is to show the feasibility of our idea which is to conduct early-exiting on the middle of in-network inference. There are two modes - static exiting and adaptive exiting. Static exiting mode is to exit every packets on the designated exit point. On the other hand, adaptive exiting obtains the confidence score of current packet and decides whether to exit by comparing with the threshold.
 
+![image](https://github.com/keemeew/Early-Exit-P4/assets/69777212/047e8c60-6513-4a85-bd37-06affa07a38e)
+
 These are instructions you can follow to run.
 
 ### Preliminaries
@@ -35,3 +37,5 @@ p4c --target bmv2 --arch v1model --std p4-16 ~/Early-Exit-P4/p4src/ee_static.p4 
 ```
 sudo bash veth.sh
 ```
+
+### Static
