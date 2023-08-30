@@ -20,39 +20,18 @@ These are instructions you can follow to run.
 
 ### Preliminaries
 
-
-
-
-
-1. Clone the repository to local 
+1. Clone the repository to the local 
 ```
-git clone https://github.com/keemeew/Approximated-Fair-Queuing
+git clone <project link>
 ```
 
-2. Compile approx_fair_queuing.p4 (Optional)
+2. Compile .p4 files
 ```
-p4c --target bmv2 --arch v1model approx_fair_queuing.p4
-```
-
-3. Set up virtual nic interfaces
-```
-sudo bash veth_setup.sh
+p4c --target bmv2 --arch v1model --std p4-16 ~/Early-Exit-P4/p4src/ee_adaptive.p4 -o ~/Early-Exit-P4/p4src
+p4c --target bmv2 --arch v1model --std p4-16 ~/Early-Exit-P4/p4src/ee_static.p4 -o ~/Early-Exit-P4/p4src
 ```
 
-4. Run Bmv2 switch 
+3. Set up virtual network interfaces
 ```
-sudo simple_switch -i 0@veth0 -i 1@veth2 -i 2@veth4 --log-console --thrift-port 9090 approx_fair_queuing.json
+sudo bash veth.sh
 ```
-* 'veth0-2' is used for input port, and 'veth4' is output port.
-
-5. Insert switch rule
-```
-sudo simple_switch_CLI --thrift-port 9090 < rule.txt
-```
-
-6. Send long flow and burst flow simultaneously
-``` 
-sudo python3 send.py --dst "10.10.0.1"
-sudo python3 send.py --dst "10.10.0.2"
-```
-I recommend you to use terminal applications (e.g., terminator) which supports command broadcasting to run two different send.py commands simultaneously. Timing to send long flow and burst flow is carefully adjusted in python script. By the way, please sniff 'veth4 using packet sniffing applications such as wireshark by yourself.
