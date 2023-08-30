@@ -79,7 +79,7 @@ python3 send.py
 ```
 bash run_adaptive.sh
 ```
-  For the rest of step, please follow the identical procedure of static-exiting.
+  For the rest of steps, please follow the identical procedure of static-exiting.
 
 2. By default the confidence score threshold is set to be 0.7 (7). To change the value, please modify the following line in ee_adaptive.p4 and recompile it.
 ```
