@@ -13,6 +13,7 @@ from scapy.all import Packet
 from scapy.all import IP, UDP, Raw, TCP
 from scapy.layers.inet import _IPOption_HDR
 from scapy.fields import *
+import time
 
 global cnt, true_positive, true_negative, false_positive, false_negative
 cnt = 0
@@ -21,34 +22,37 @@ true_negative = 0
 false_positive = 0
 false_negative = 0
 
-class Soren(Packet):
-    name = "Soren"
+class Inference(Packet):
+    name = "Inference"
     fields_desc = [
         BitField('value', 0, 126),
         BitField('padding', 0, 2),
+        BitField('enter_time', 0, 48),
+        BitField('exit_time', 0, 48),
     ]
 
 def handle_pkt(pkt):
-    # pkt.show()
     global cnt, true_positive, true_negative, false_positive, false_negative
     malicious_flag = 0
     if 'IP' in pkt:
         cnt += 1
-        print(pkt[IP].tos)
         if 'TCP' in pkt:
             if pkt[TCP].flags == 2:
-                print('malicious')
                 malicious_flag = 1
         if pkt[IP].tos == 1:
             if malicious_flag == 1:
                 true_positive += 1
+                print("Accurate!")
             elif malicious_flag == 0:
                 false_positive += 1
+                print("Inaccurate!")
         else:
             if malicious_flag == 1:
                 false_negative += 1
+                print("Inaccurate!")
             elif malicious_flag == 0:
-                true_negative += 1            
+                true_negative += 1
+                print("Accurate!")
         total1 = true_positive + false_negative
         total2 = true_positive + false_positive
         if (total1 != 0 and total2 != 0):
@@ -56,15 +60,13 @@ def handle_pkt(pkt):
             precision = float(true_positive) / float(total2)
             f1score = 2.0 / float(1 / precision + 1 / recall)
             accuracy = (true_positive+true_negative)/(true_positive+true_negative+false_positive+false_negative)
-            print("recall rate : {}, precision : {},  f1score : {}, accuracy : {}".format(recall, precision, f1score, accuracy))
-
+            print("Recall rate : {}, Precision : {}, Accuracy : {}, F1score : {}".format(recall, precision, accuracy, f1score))
 
 def main():
 
-    bind_layers(Ether, Soren)
-    bind_layers(Soren, IP)
+    bind_layers(Ether, Inference)
+    bind_layers(Inference, IP)
     bind_layers(IP, UDP)
-    # bind_layers(IP, TCP)
 
     ifaces = filter(lambda i: 'eth' in i, os.listdir('/sys/class/net/'))
     iface = 'eth0'

@@ -1130,7 +1130,7 @@ control MyIngress(inout headers hdr,
              }
 
       }
-        if (meta.swid == 2){
+        if (meta.swid == 1){
             standard_metadata.egress_spec = 2;
         }
         else{

@@ -5,9 +5,10 @@ import sys
 
 pkts = rdpcap("dataset.pcap")
 
-cnt = 0
+print("Sending packets...")
 for idx, pkt in enumerate(pkts):
-    print(cnt)
     sendp(pkt, iface='eth0', verbose=False)
-    cnt += 1
+    if (idx+1) % 20 == 0:
+        print("{}%".format((idx+1)/20))
     sleep(0.1)
+print("Done.")
