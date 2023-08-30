@@ -33,6 +33,8 @@ git clone <project link>
 2. Compile .p4 files.
 ```
 p4c --target bmv2 --arch v1model --std p4-16 ~/Early-Exit-P4/p4src/ee_static.p4 -o ~/Early-Exit-P4/p4src
+```
+```
 p4c --target bmv2 --arch v1model --std p4-16 ~/Early-Exit-P4/p4src/ee_adaptive.p4 -o ~/Early-Exit-P4/p4src
 ```
 
