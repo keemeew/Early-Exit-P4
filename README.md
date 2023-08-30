@@ -32,8 +32,8 @@ git clone <project link>
 
 2. Compile .p4 files.
 ```
-p4c --target bmv2 --arch v1model --std p4-16 ~/Early-Exit-P4/p4src/ee_adaptive.p4 -o ~/Early-Exit-P4/p4src
 p4c --target bmv2 --arch v1model --std p4-16 ~/Early-Exit-P4/p4src/ee_static.p4 -o ~/Early-Exit-P4/p4src
+p4c --target bmv2 --arch v1model --std p4-16 ~/Early-Exit-P4/p4src/ee_adaptive.p4 -o ~/Early-Exit-P4/p4src
 ```
 
 3. Set up virtual network interfaces.
@@ -68,4 +68,7 @@ python3 receive.py
 python3 send.py
 ```
 
-
+6. By default the packets are set to exit on exit point 2. If you want to change the exit point, please modify the following line in ee_static.p4 and recompile it.
+```
+(line 1133) if (meta.swid == 2) -> meta.swid == 1 or meta.swid == 3
+```
