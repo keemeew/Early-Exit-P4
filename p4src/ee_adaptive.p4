@@ -8,10 +8,6 @@ const bit<16> TYPE_IPV4 = 0x800;
 const bit<16> TYPE_INFER = 0x8845;
 const bit<8>  TYPE_TCP  = 6;
 
-// #define CONST_MAX_PORTS 	32
-// #define CONST_MAX_LABELS 	10
-// #define REGISTER_LENGTH 255
-
 /*************************************************************************
 *********************** H E A D E R S  ***********************************
 *************************************************************************/
@@ -72,27 +68,26 @@ header udp_t {
 
 
 struct headers {
-    ethernet_t          ethernet;
-    inference_t             inference;
-    ipv4_t              ipv4;
-    tcp_t               tcp;
-    udp_t               udp;
+    ethernet_t  ethernet;
+    inference_t inference;
+    ipv4_t      ipv4;
+    tcp_t       tcp;
+    udp_t       udp;
 }
 
 
-
 struct metadata {
-    bit<1> is_ingress_border;
-    bit<1> is_egress_border;
+    bit<1>   is_ingress_border;
+    bit<1>   is_egress_border;
     bit<126> early_exit_1;
     bit<126> early_exit_2;
     bit<126> big_number;
     bit<126> small_number;
-    bit<1> early_exit_result;
-    bit<1> activated_exit_1;
-    bit<1> activated_exit_2;
-    bit<8> predict;
-    bit<13> swid;
+    bit<1>   early_exit_result;
+    bit<1>   activated_exit_1;
+    bit<1>   activated_exit_2;
+    bit<8>   predict;
+    bit<13>  swid;
 }
 
 
@@ -106,7 +101,6 @@ parser MyParser(packet_in packet,
                 inout standard_metadata_t standard_metadata) {
 
     state start {
-
         packet.extract(hdr.ethernet);
         transition select(hdr.ethernet.etherType){
             TYPE_INFER: parse_inference;
@@ -164,9 +158,9 @@ control MyIngress(inout headers hdr,
     bit<126> bnnInput = 0;
     bit<126> XNOROutput = 0;
     bit<126> NextLayerInput = 0;
-    bit<5> output_result = 0;
+    bit<5>   output_result = 0;
 
-    bit<4> activated = 0;
+    bit<4>   activated = 0;
     bit<128> m1 = 0x55555555555555555555555555555555;
     bit<128> m2 = 0x33333333333333333333333333333333;
     bit<128> m4 = 0x0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f;
@@ -175,10 +169,10 @@ control MyIngress(inout headers hdr,
     bit<128> m32= 0x00000000ffffffff00000000ffffffff;
     bit<128> m64= 0x0000000000000000ffffffffffffffff;
 
-    bit<16> L4src = 0;
-    bit<16> L4dst = 0;
+    bit<16>  L4src = 0;
+    bit<16>  L4dst = 0;
 
-    // input: 5-tuple and packet length + tcp flag (bnn style)
+    // input: packet length, 5-tuple and tcp flag (bnn style)
     action BuildInput(){
         bnnInput = ((bit<126>)hdr.ipv4.totalLen)<<8;
         bnnInput = (bnnInput + (bit<126>)hdr.ipv4.protocol)<<32;
@@ -195,8 +189,8 @@ control MyIngress(inout headers hdr,
     }
 
     action XNOR_next(bit<126> weight){
-    XNOROutput = weight^NextLayerInput;
-    XNOROutput = ~XNOROutput;
+        XNOROutput = weight^NextLayerInput;
+        XNOROutput = ~XNOROutput;
     }
 
     action BitCount(bit<126> bitInput){
@@ -225,9 +219,6 @@ control MyIngress(inout headers hdr,
         x = (x & m64) + ((x >> 64) & m64);
         meta.early_exit_1 = (bit<126>)x;
         meta.activated_exit_1 = (x>63) ? (bit<1>)1 : 0;
-        // NextLayerInput = NextLayerInput<<1;
-        // NextLayerInput = NextLayerInput + (bit<126>)activated;
-
     }
 
     action BitCount2(bit<126> bitInput){
@@ -241,9 +232,6 @@ control MyIngress(inout headers hdr,
         x = (x & m64) + ((x >> 64) & m64);
         meta.early_exit_2 = (bit<126>)x;
         meta.activated_exit_2 = (x>63) ? (bit<1>)1 : 0;
-        // NextLayerInput = NextLayerInput<<1;
-        // NextLayerInput = NextLayerInput + (bit<126>)activated;
-
     }
 
     action LayerProcess(bit<10> offset, bit<126> input_data){
@@ -1011,7 +999,6 @@ control MyIngress(inout headers hdr,
     action check_switch_id(switch_id_t swid){
         if (swid == 1){
             meta.is_ingress_border = (bit<1>)1;
-
         }
         if (swid == 3) {
             meta.is_egress_border = (bit<1>)1;
@@ -1042,7 +1029,6 @@ control MyIngress(inout headers hdr,
     action ipv4_forward(macAddr_t dstAddr, egressSpec_t port) {
         hdr.ethernet.srcAddr = hdr.ethernet.dstAddr;
         hdr.ethernet.dstAddr = dstAddr;
-
         standard_metadata.egress_spec = port;
         hdr.ipv4.ttl = hdr.ipv4.ttl - 1;
     }
@@ -1063,7 +1049,6 @@ control MyIngress(inout headers hdr,
         bit<4> c_threshold = 7;
         if (confidence >= c_threshold){
             meta.early_exit_result = 1;
-
         }
         if (confidence < c_threshold){
             meta.early_exit_result = 0;
@@ -2004,7 +1989,6 @@ control MyIngress(inout headers hdr,
         }
     }
 
-    // // new table, action
     action predict() {
         // result-> ip filed (ip type of service tos / )
         if (meta.early_exit_1 < meta.early_exit_2) {
@@ -2023,6 +2007,7 @@ control MyIngress(inout headers hdr,
     action no_early_exit() {
         standard_metadata.egress_spec = 3;
     }
+
     action yes_early_exit() {
         standard_metadata.egress_spec = 2;
     }
@@ -2038,6 +2023,7 @@ control MyIngress(inout headers hdr,
         default_action = no_early_exit;
         size = 1024;
     }
+
     table early_exiting_2{
         key = {
             meta.early_exit_result: exact;
@@ -2049,7 +2035,6 @@ control MyIngress(inout headers hdr,
         default_action = no_early_exit;
         size = 1024;
     }
-
 
     apply {
         check_swid.apply();
@@ -2063,7 +2048,6 @@ control MyIngress(inout headers hdr,
             L4src=hdr.tcp.srcPort;
             L4dst=hdr.tcp.dstPort;
         }
-        // add_inference_header();
 
         if (meta.swid == 1) {
             if (hdr.ipv4.isValid()){
@@ -2072,8 +2056,8 @@ control MyIngress(inout headers hdr,
 
                  if (hdr.inference.val == 0){
                      BuildInput();
-
                      LayerProcess(0,bnnInput);
+
                      //early exit classifier
                      bit<126> weight=0; 
                      bit<126> weight_sub=0; 
@@ -2105,7 +2089,7 @@ control MyIngress(inout headers hdr,
                 bnnInput = hdr.inference.val;
                 LayerProcess(0,bnnInput);
 
-                 //early exit classifier
+                //early exit classifier
                 bit<126> weight=0; 
                 bit<126> weight_sub=0; 
                 weights_bnn.read(weight_sub, (bit<32>)252);
@@ -2126,11 +2110,11 @@ control MyIngress(inout headers hdr,
                 compute_confidence_2.apply();
                 early_exiting_2.apply();
                 hdr.inference.val = NextLayerInput;
+             }
 
-      }
-        if (meta.swid == 3){
-            standard_metadata.egress_spec = 2;
-        }
+             if (meta.swid == 3){
+                standard_metadata.egress_spec = 2;
+             }
         }
     }
 }
@@ -2142,8 +2126,6 @@ control MyIngress(inout headers hdr,
 control MyEgress(inout headers hdr,
                  inout metadata meta,
                  inout standard_metadata_t standard_metadata) {
-
-
     apply {
         hdr.inference.exit_time = standard_metadata.egress_global_timestamp;
     }
@@ -2154,11 +2136,11 @@ control MyEgress(inout headers hdr,
 *************************************************************************/
 
 control MyComputeChecksum(inout headers hdr, inout metadata meta) {
-     apply {
+    apply {
 	update_checksum(
 	    hdr.ipv4.isValid(),
             { hdr.ipv4.version,
-	      hdr.ipv4.ihl,
+	          hdr.ipv4.ihl,
               hdr.ipv4.tos,
               hdr.ipv4.totalLen,
               hdr.ipv4.identification,
@@ -2180,7 +2162,6 @@ control MyComputeChecksum(inout headers hdr, inout metadata meta) {
 
 control MyDeparser(packet_out packet, in headers hdr) {
     apply {
-
         //parsed headers have to be added again into the packet.
         packet.emit(hdr.ethernet);
         packet.emit(hdr.inference);
@@ -2196,10 +2177,10 @@ control MyDeparser(packet_out packet, in headers hdr) {
 
 //switch architecture
 V1Switch(
-MyParser(),
-MyVerifyChecksum(),
-MyIngress(),
-MyEgress(),
-MyComputeChecksum(),
-MyDeparser()
+    MyParser(),
+    MyVerifyChecksum(),
+    MyIngress(),
+    MyEgress(),
+    MyComputeChecksum(),
+    MyDeparser()
 ) main;

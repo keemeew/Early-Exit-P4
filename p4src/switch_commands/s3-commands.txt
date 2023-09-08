@@ -1,13 +1,6 @@
-# table_set_default ipv4_lpm drop
-# table_add ipv4_lpm ipv4_forward 10.0.1.1/32 => 00:00:0a:00:01:01 1
-# table_add ipv4_lpm ipv4_forward 10.0.4.0/24 => 00:01:0a:00:02:02 2
-
-# table_add check_is_ingress_border is_ingress_border 1 =>
-# table_add check_port check_ingress_port 1 =>
 table_set_default check_swid check_switch_id 3
 table_add check_swid check_switch_id 3 =>
 
-# maybe need to modify..
 table_set_default early_exiting_1 no_early_exit
 table_set_default early_exiting_2 no_early_exit
 table_add early_exiting_1 yes_early_exit 1 =>
