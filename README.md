@@ -29,7 +29,7 @@ These are instructions you can follow.
 
 1. Clone the repository to the local.
 ```
-git clone <project link>
+git clone https://github.com/keemeew/Early-Exit-P4
 ```
 
 2. Compile .p4 files.
