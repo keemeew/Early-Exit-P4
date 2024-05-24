@@ -1,6 +1,6 @@
 # Implementation of Adaptive In-Network Inference 
 
-This is the implementation of "Adaptive In-Network Inference using Early-Exits" based on P4 BMv2 software switch. 
+This is the implementation of "TINIEE: Traffic-Aware Adaptive In-Network Intelligence via Early-Exit Strategy" based on P4 BMv2 software switch. 
 
 ## Dependencies
 
