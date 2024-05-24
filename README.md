@@ -16,13 +16,6 @@ Mininet: https://github.com/mininet/mininet
 
 This repository is to show the feasibility of our idea which is to conduct early-exiting on the middle of in-network inference. There are two modes - static-exiting and adaptive-exiting. Static-exiting mode is to exit every packets on the designated exit point. On the other hand, adaptive-exiting obtains the confidence score of current packet and decides whether to exit by comparing with the threshold.
 
-Network topology:
-
-    (L1-EE1)  (L2-EE2)  (L3-EE3) <br/>
-host0 ⸺ switch1 ⸺ switch2 ⸺ switch3 ⸺ host4 <br/>
-      |     |     | <br/>
-     host1   host2   host3
-
 These are instructions you can follow.
 
 ### Preliminaries
